@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Baixar arquivo de workflow do Gits
         run: |
-          URL_GIST="https://api.github.com/gists/c33735ca0b794861000b959304cffe6c"
           GITS_FILE="./download.yml"  # Agora está na raiz do workflow
           GIST_ID="2d1fb527588a1203c624504a1565e8cc"
           URL_GIST="https://api.github.com/gists/$GIST_ID"
