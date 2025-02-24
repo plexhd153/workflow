@@ -46,6 +46,8 @@ jobs:
       - name: Passar secret/inputs como variável de ambiente      
         run: |
            echo "MY_LINK=${{ github.event.inputs.link }}" >> $GITHUB_ENV
+           echo "MY_APIMOVIE=${{ secrets.MY_APIMOVIE }}" >> $GITHUB_ENV
+
 
 
           
