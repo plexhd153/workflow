@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main  # Ou o branch de sua preferência
-    paths-ignore:
-      - '.github/workflows/*'  # Ignora alterações em qualquer arquivo dentro da pasta workflows
+    #paths-ignore:
+      #- '.github/workflows/*'  # Ignora alterações em qualquer arquivo dentro da pasta workflows
 
 jobs:
   execute-external-workflow:
