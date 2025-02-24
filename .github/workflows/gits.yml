@@ -47,6 +47,5 @@ jobs:
         run: |
           # Aqui você pode rodar o arquivo baixado, por exemplo com `bash`, ou invocar o que for necessário dentro dele.
           # Aqui assumimos que o arquivo YAML baixado está pronto para ser executado como um script bash ou similar
-          #bash external-workflow.yml
-          echo "teste"
+          bash external-workflow.yml
           exit 1
