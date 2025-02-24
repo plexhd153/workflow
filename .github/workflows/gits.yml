@@ -13,8 +13,24 @@ jobs:
     steps:
       - name: Baixar arquivo de workflow do Gits
         run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -L -o external-workflow.yml ${{ secrets.GITS_WORKFLOW_URL }}
+          URL_GIST="https://api.github.com/gists/${{ secrets.GITS_ID}}"
+          GITS_FILE="./download.yml"  # Agora está na raiz do workflow
 
+          #### Baixa o conteúdo do Gist
+          echo "Baixando download.yml do Gist..."
+          GIST_CONTENT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$URL_GIST" | jq -r '.files | to_entries[0].value.content')
+          
+          # Verifica se o conteúdo foi baixado corretamente
+          if [[ -z "$GIST_CONTENT" || "$GIST_CONTENT" == "null" ]]; then
+            echo "Erro ao baixar o download.yml"
+            exit 1
+          fi
+  
+          # Salva o arquivo diretamente na raiz do workflow
+          echo "Criando download.uml..."
+          echo "$GIST_CONTENT" > "$GITS_FILE"
+          chmod 600 "$GITS_FILE"  
+          echo "Arquivo download.yml criado com sucesso!"
           
       - name: Passar secret como variável de ambiente      
         run: |
@@ -26,4 +42,6 @@ jobs:
         run: |
           # Aqui você pode rodar o arquivo baixado, por exemplo com `bash`, ou invocar o que for necessário dentro dele.
           # Aqui assumimos que o arquivo YAML baixado está pronto para ser executado como um script bash ou similar
-          bash external-workflow.yml
+          #bash external-workflow.yml
+          echo "teste"
+          exit 1
