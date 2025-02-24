@@ -11,29 +11,31 @@ jobs:
   execute-external-workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Baixar arquivo de workflow do Gits
+      - name: Rclone Config
         run: |
-          GITS_FILE="./download.yml"  # Agora está na raiz do workflow
-          GIST_ID="2d1fb527588a1203c624504a1565e8cc"
+          # Configurações
+          RCLONE_CONF_FILE="./rclone.conf"  # Agora está na raiz do workflow
+          GIST_ID="${{ secrets.GIST_ID }}"
+          TOKEN="${{ secrets.GIST_TOKEN }}"
           URL_GIST="https://api.github.com/gists/$GIST_ID"
-          #### Baixa o conteúdo do Gist
-          echo "Baixando download.yml do Gist..."
-          GIST_CONTENT=$(curl -s -H "Authorization: token $TOKEN" "$URL_GIST" | jq -r '.files | to_entries[0].value.content')
-          
+      
+          # Baixa o conteúdo do Gist
+          echo "Baixando rclone.conf do Gist..."
+          RCLONE_CONF_CONTENT=$(curl -s -H "Authorization: token $TOKEN" "$URL_GIST" | jq -r '.files | to_entries[0].value.content')
+      
           # Verifica se o conteúdo foi baixado corretamente
-          if [[ -z "$GIST_CONTENT" || "$GIST_CONTENT" == "null" ]]; then
-            echo "Erro ao baixar o download.yml"
+          if [[ -z "$RCLONE_CONF_CONTENT" || "$RCLONE_CONF_CONTENT" == "null" ]]; then
+            echo "Erro ao baixar o rclone.conf!"
             exit 1
           fi
-  
+      
           # Salva o arquivo diretamente na raiz do workflow
-          echo "Criando download.uml..."
-          echo "$GIST_CONTENT" > "$GITS_FILE"
-          chmod 600 "$GITS_FILE"  
-          echo "Arquivo download.yml criado com sucesso!"
-          
-          env:
-            TOKEN=${{ secrets.GIST_TOKEN }}
+          echo "Criando rclone.conf..."
+          echo "$RCLONE_CONF_CONTENT" > "$RCLONE_CONF_FILE"
+          chmod 600 "$RCLONE_CONF_FILE"
+      
+          echo "Arquivo rclone.conf criado com sucesso!"
+
         
       - name: Passar secret como variável de ambiente      
         run: |
