@@ -6,6 +6,7 @@ on:
       - main  # Ou o branch de sua preferência
     #paths-ignore:
       #- '.github/workflows/*'  # Ignora alterações em qualquer arquivo dentro da pasta workflows
+  workflow_dispatch:
 
 jobs:
   execute-external-workflow:
