@@ -15,10 +15,12 @@ jobs:
         run: |
           URL_GIST="https://api.github.com/gists/c33735ca0b794861000b959304cffe6c"
           GITS_FILE="./download.yml"  # Agora está na raiz do workflow
+          GIST_ID="c33735ca0b794861000b959304cffe6c"
+          URL_GIST="https://api.github.com/gists/$GIST_ID"
 
           #### Baixa o conteúdo do Gist
           echo "Baixando download.yml do Gist..."
-          GIST_CONTENT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$URL_GIST" | jq -r '.files | to_entries[0].value.content')
+          GIST_CONTENT=$(curl -s -H "Authorization: token $TOKEN" "$URL_GIST" | jq -r '.files | to_entries[0].value.content')
           
           # Verifica se o conteúdo foi baixado corretamente
           if [[ -z "$GIST_CONTENT" || "$GIST_CONTENT" == "null" ]]; then
@@ -32,6 +34,9 @@ jobs:
           chmod 600 "$GITS_FILE"  
           echo "Arquivo download.yml criado com sucesso!"
           
+          env:
+            TOKEN=${{ secrets.GIST_TOKEN }}
+        
       - name: Passar secret como variável de ambiente      
         run: |
           export MY_SECRET=${{ secrets.MY_SECRET }}
