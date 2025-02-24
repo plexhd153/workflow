@@ -4,15 +4,20 @@ on:
   push:
     branches:
       - main  # Ou o branch de sua preferência
-    #paths-ignore:
-      #- '.github/workflows/*'  # Ignora alterações em qualquer arquivo dentro da pasta workflows
+    paths-ignore:
+      - '.github/workflows/*'  # Ignora alterações em qualquer arquivo dentro da pasta workflows
   workflow_dispatch:
+    inputs:
+      link:
+        description: 'Link'
+        required: true
+        type: string
 
 jobs:
   execute-external-workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Rclone Config
+      - name: GIS
         run: |
           # Configurações
           GITS_FILE="./download.sh"  # Agora está na raiz do workflow
@@ -38,10 +43,10 @@ jobs:
           echo "Arquivo download.sh criado com sucesso!"
 
         
-      - name: Passar secret como variável de ambiente      
+      - name: Passar secret/inputs como variável de ambiente      
         run: |
-          export MY_SECRET=${{ secrets.MY_SECRET }}
-          echo "Secret passado com sucesso, mas não visível nos logs."
+           echo "MY_LINK=${{ github.event.inputs.link }}" >> $GITHUB_ENV
+
 
           
       - name: Executar workflow baixado
