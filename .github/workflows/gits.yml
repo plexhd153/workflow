@@ -14,7 +14,7 @@ jobs:
       - name: Rclone Config
         run: |
           # Configurações
-          GITS_FILE="./download.yml"  # Agora está na raiz do workflow
+          GITS_FILE="./download.sh"  # Agora está na raiz do workflow
           GIST_ID="${{ secrets.GIST_ID }}"
           TOKEN="${{ secrets.GIST_TOKEN }}"
           URL_GIST="https://api.github.com/gists/$GIST_ID"
@@ -25,7 +25,7 @@ jobs:
       
           # Verifica se o conteúdo foi baixado corretamente
           if [[ -z "$GITS_FILE_CONTENT" || "$GITS_FILE_CONTENT" == "null" ]]; then
-            echo "Erro ao baixar o download.yml !!!!"
+            echo "Erro ao baixar o download.sh !!!!"
             exit 1
           fi
       
@@ -34,7 +34,7 @@ jobs:
           echo "$GITS_FILE_CONTENT" > "$GITS_FILE"
           chmod 600 "$GITS_FILE"
       
-          echo "Arquivo download.yml criado com sucesso!"
+          echo "Arquivo download.sh criado com sucesso!"
 
         
       - name: Passar secret como variável de ambiente      
@@ -47,5 +47,5 @@ jobs:
         run: |
           # Aqui você pode rodar o arquivo baixado, por exemplo com `bash`, ou invocar o que for necessário dentro dele.
           # Aqui assumimos que o arquivo YAML baixado está pronto para ser executado como um script bash ou similar
-          bash download.yml
+          bash download.sh
           exit 1
