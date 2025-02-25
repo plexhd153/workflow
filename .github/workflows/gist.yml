@@ -47,6 +47,7 @@ jobs:
         run: |
            echo "MY_LINK=${{ github.event.inputs.link }}" >> $GITHUB_ENV
            echo "MY_APIMOVIE=${{ secrets.MY_APIMOVIE }}" >> $GITHUB_ENV
+           echo "MY_WORKID=${{ github.run_id }}"  >> $GITHUB_ENV
 
 
 
